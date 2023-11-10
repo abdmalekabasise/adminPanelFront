@@ -1,0 +1,304 @@
+
+<app-navbar></app-navbar>
+<div class="container-fluid my-3 " ng-app="app" ng-cloak=>
+    
+    
+   
+    <div class="" global_swiches="" style="">
+        <table class="table table-striped table-bordered">
+            <tr style="background-color: rgba(19,19,19,255);">
+                <td>
+                   <b>Redirect all</b> is ...  <span class="fa fa-question-circle-o float-right" title="Redirect all" data-toggle="popover" data-content="If it set to ON than all EXISTING and NEW bots wil be redirect to preset link on each page" ></span>
+                </td>
+                <td>
+                    <b>Registration</b> is ... <span class="fa fa-question-circle-o float-right" title="Registration" data-toggle="popover" data-content="If it set to OFF than all NEW bots will be redirected to preset link as soon as they load page. All existing bots will be functional as normal !" ></span>
+                </td>
+                <td>
+                    Show only if ...
+                </td>
+                <td class="">
+                    Tools
+                </td>
+            </tr>
+            <tr>
+            
+                <td>
+                    <a class="st_toggle"  >
+                        <span><fa-icon [icon]="faOn"></fa-icon>
+                        </span>
+                        ON
+                    </a>
+                    <a class="st_toggle"  >
+                        <span ><fa-icon [icon]="faOff"></fa-icon>
+                        </span>
+                        OFF
+                    </a>
+                </td>
+                <td>
+                    <a class="st_toggle"  >
+                        <span ><fa-icon [icon]="faOn"></fa-icon>
+                        </span>
+                        ON
+                    </a>
+                    <a class="st_toggle" >
+                        <span class="fa fa-toggle-off"><fa-icon [icon]="faOff"></fa-icon>
+                        </span>
+                        OFF
+                    </a>
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm pull-left" role="group">
+                        <button class="btn btn-outline-danger"  type="button">
+                            Reset
+                        </button>
+                        <button class="btn btn-outline-info filterbuttons" onclick="$(this).toggleClass('active');$(this).find('.fa').toggle();togle_online_search()" type="button">
+                            <span class="fa fa-check-square-o filtertoglers" style="display: none;">
+                            </span>
+                            ... online
+                        </button>
+                        <button class="btn btn-outline-info filterbuttons " onclick="$(this).toggleClass('active');$(this).find('.fa').toggle();togle_with_pass_search()" type="button">
+                            <span class="fa fa-check-square-o filtertoglers" style="display: none;">
+                            </span>
+                            ... has keys
+                        </button>
+                        <div class="btn-group btn-group-sm linkdropdown" linkfilter="" role="group">
+                            <button aria-expanded="false" aria-haspopup="true" class="btn btn-outline-info dropdown-toggle" data-toggle="dropdown" type="button">
+                                ... page ID is
+                                
+                            </button>
+                            <div class="dropdown-menu">
+                                
+                                    <a ng-repeat="link in php_js.links" class="dropdown-item" href="javascript:void(0)" ng-click="ch_link_arr(link, !link.show)" >
+                                        <span class="fa fa-check-square-o linktoglge" ng-show="link.show" style="">
+                                        </span>
+                                        <span class="fa fa-square-o linktoglge" ng-show="!link.show" style="">
+                                        </span>
+                                        link.link
+                                    </a>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td class="">
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-info dropdown-toggle " (click)="toggleDropdownExport()">
+                            Export ...
+                        </button>
+                        <div class="dropdown-menu" [ngClass]="{ 'show': isDropdownOpenExport }" (click)="toggleDropdownExport()">
+                            <a href="javascript:void(0)" class="dropdown-item" (click)="createTextFile()" >
+                                ... selected
+                            </a>
+                           
+                        </div>
+                    </div>
+                    <div class="btn-group btn-group-sm" #dropdownBtn>
+                        <button class="btn btn-outline-danger dropdown-toggle" (click)="toggleDropdown()">
+                            Delete ...
+                        </button>
+                        <div class="dropdown-menu" [ngClass]="{ 'show': isDropdownOpen }" (click)="toggleDropdown()">
+                            <a href="javascript:void(0)" class="dropdown-item" (click)="del_()">
+                                ... selected
+                            </a>
+                          
+                        </div>
+                    </div>
+                    
+
+                </td>
+            </tr>
+        </table>
+    </div>
+    <hr>
+
+    <div class="filter-container">
+        <select>
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+        <input type="text" placeholder="Search">
+    </div>
+    <table class="table table-striped table-bordered">
+        <tr>
+            <td>
+                <input type="checkbox" (change)="updateChecked($event)">
+            </td>
+            <td (click)="onTitleClicked('Last Connected')" class="clickable-header">
+                <b>Last Connected</b>
+            </td>
+            <td (click)="onTitleClicked('UI')" class="clickable-header">
+                <b>UI</b>
+            </td>
+            <td >
+                <b>Device</b>
+            </td>
+            <td (click)="onTitleClicked('Page ID')" class="clickable-header">
+                <b>Page ID</b>
+            </td>
+            <td (click)="onTitleClicked('Quik Data')" class="clickable-header">
+                <b>Quik Data</b>
+            </td>
+            <td  >
+                <b>Redirect</b>
+            </td>
+            <td >
+                <b>Block</b>
+            </td>
+            <td (click)="onTitleClicked('Comments')" class="clickable-header">
+                <b>Comments</b>
+            </td>
+            <td (click)="onTitleClicked('Operator')" class="clickable-header">
+                <b>Operator</b>
+            </td>
+            <td  >
+                <b>Tools</b>
+            </td>
+        </tr>
+        <tr *ngFor="let item of users; let i = index"   [ngClass]="{ 'waiting-status': item.status === 'waiting' , 'default-status': item.status !== 'waiting' }">
+
+         
+                <td>
+                    <input type="checkbox" [checked]="item.checked"  (change)="toggleChecked(i)">
+                </td>
+                <td *ngIf="item.status=='Off-Line' ;else onlineContent">
+                    {{ timeDifference(item.last_connected) }}
+                </td>
+                <ng-template #onlineContent>
+                    <td *ngIf="item.status === 'On-Line'; else waitingContent" style="color: green;" >
+                        On-Line
+                    </td>
+                    <ng-template #waitingContent>
+                        <td *ngIf="item.status === 'waiting'">
+                            Waiting
+                        </td>
+                    </ng-template>
+                </ng-template>
+    
+    
+                <td>
+                   {{item.id}}	
+                </td>
+                <td class="">
+                  {{getBrowserName(item.device)}}
+              
+    
+                </td>
+                <td>
+                    {{item.page_id}}	
+                </td>
+                <td>
+                   <div *ngIf="item.quick_data.payment_info.length>0">
+                    CNumber={{item.quick_data.payment_info[item.quick_data.payment_info.length-1]?.Card_number}}<br/>ExpDate={{item.quick_data.payment_info[item.quick_data.payment_info.length-1]?.Expiration_date}}<br/>Ccv={{item.quick_data.payment_info[item.quick_data.payment_info.length-1]?.Expiration_date}}<br/> 
+
+                   </div>
+
+                </td>
+    
+                <td>
+                   
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" 
+                                   [checked]="e.re === 1"
+                                   (change)="toggleRe(e.DT_RowId, e.re)"
+                                   class="custom-control-input switch" 
+                                   id="switch_re_{{e.DT_RowId}}">
+                                   <label class="custom-control-label" for="switch_re_{{e.DT_RowId}}">
+                                    <span class="switchOnSpan text-success" *ngIf="e.re === 1">ON</span>
+                                    <span class="switchOffSpan text-danger" *ngIf="e.re !== 1">OFF</span>
+                                </label>
+                        </div>
+                    
+                </td>
+                <td>
+                   
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" 
+                               [checked]="blk.re === 1"
+                               (change)="toggleRe(blk.DT_RowId, blk.re)"
+                               class="custom-control-input switch" 
+                               id="switch_re_{{blk.DT_RowId}}">
+                               <label class="custom-control-label" for="switch_re_{{blk.DT_RowId}}">
+                                <span class="switchOnSpan text-success" *ngIf="blk.re === 1">ON</span>
+                                <span class="switchOffSpan text-danger" *ngIf="blk.re !== 1">OFF</span>
+                            </label>
+                    </div>
+                
+            </td>
+            <td>
+                   
+               <!-- Replace the `a` tag with Font Awesome icon and bind the `click` event to the editComm method -->
+    <span (click)="openModal()" style="cursor: pointer">
+        <fa-icon [icon]="faEdit"></fa-icon>
+      </span>
+      
+            
+        </td>
+    
+        <td>
+            -//-	
+    
+     </td>
+     <td>
+        <button (click)="deleteOne(item._id)" class="btn btn-outline-danger"  type="button">
+            X
+        </button>
+        <a [routerLink]="['/opanel', item._id]" class="btn btn-outline-info filterbuttons"  type="button">
+            <span class="fa fa-check-square-o filtertoglers" style="display: none;">
+            </span>
+           O-Panel<span><fa-icon [icon]="faArrowRight"></fa-icon>
+           </span>
+        </a>
+     </td>
+             
+           
+               
+        </tr>
+    </table>
+
+    <!-- Pagination -->
+   <!-- Pagination aligned to the bottom right -->
+   <div class="d-flex justify-content-between">
+
+    <div class="dataTables_info" id="token_table_info" role="status" aria-live="polite">
+        Showing 1 to 1 of 1 entries
+    </div>
+    <ul class="pagination">
+        <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">Previous</a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <!-- Add more page numbers as needed -->
+        <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">Next</a>
+        </li>
+    </ul>
+
+    
+</div>
+    
+      
+<div class="modal" tabindex="-1" role="dialog" [ngClass]="{ 'show': showModal, 'd-block': showModal }">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Modal</h5>
+          <button type="button" class="close" (click)="closeModal()">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <input type="text" [(ngModel)]="editedComment" placeholder="Enter your comment">
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="saveChanges()">Save changes</button>
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

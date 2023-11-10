@@ -1,0 +1,366 @@
+<app-navbar></app-navbar>
+
+<div class="container-fluid mt-2">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="">Home</a></li>
+            <li class="breadcrumb-item active">O-panel for Esm el host</li>
+        </ol>
+    </nav>
+</div>
+<!-- operation -->
+<div class="container-fluid my-3" ng-app="op_app" ng-controller="main_controller" ng-cloak>
+    <div class="text-center">
+        <!-- Replaced PHP echo statements with static text -->
+        <div *ngIf="user?.status=='waiting'" class="waiting-status alert alert-danger red_row text-center" ng-show="dynamic_data.visitor_online && dynamic_data.visitor_wating">
+            <h2 class="inline m-0">
+                Visitor Waiting
+            </h2>
+        </div>
+        <div *ngIf="user?.status=='On-Line'" class="alert alert-success text-center" ng-show="dynamic_data.visitor_online && !dynamic_data.visitor_wating">
+            <h2 class="inline m-0">
+                Visitor On-Line
+            </h2>
+        </div>
+        <div *ngIf="user?.status=='Off-Line'" class="alert alert-secondary text-center" ng-show="!dynamic_data.visitor_online">
+            <h2 class="inline m-0 text-dark">
+                Visitor Off-Line
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-1"></div>
+        <div class="col-sm-7">
+            <h3>
+                Static information & Settings
+            </h3>
+            <div class="mb-3">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" id="Static-nav">
+                    <li class="nav-item">
+                        <a data-toggle="tab" href="#access" class="nav-link active">
+                            Browser & Access
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a data-toggle="tab" href="#comm_tab" class="nav-link">
+                            Comment
+                        </a>
+                    </li>
+                    <!-- Replaced PHP echo statements with static text -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="your_link_here">
+                            Jabber Settings
+                        </a>
+                    </li>
+                    <!-- Replaced PHP echo statements with static text -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="your_link_here">
+                            Op. Settings
+                        </a>
+                    </li>
+                    <!-- Replaced PHP echo statements with static text -->
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="your_link_here">
+                            Live-chat settings
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="your_link_here">
+                            Op. Patterns &nbsp; 
+                            <span class="fa fa-question-circle-o float-right" title="Help" data-toggle="popover" data-content="You can create patterns of operations which will trigger each after another automatically"></span>
+                        </a>
+                    </li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content" class="static-tab-contnet">
+                    <div class="tab-pane fade show active" id="access">
+                        <div class="row" style="margin-top:10px">
+                            <div class="col-sm-6">
+                                <div class="card p-2">
+                                    <dl>
+                                        <dt>User Agent</dt>
+                                        <dd style="-webkit-user-select: all;">{{user?.device}}</dd>
+                                        <dt>IP</dt>
+                                        <dd style="-webkit-user-select: all;">{{user?.ip}}</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div  class="card p-2" style="max-height: 150px;overflow: auto;">
+                                    <table class=" w-100" style=""><div *ngIf="user?.quick_data?.payment_info.length>0">
+                                        <div class="" ng-repeat="kyes in dynamic_data.keys" >
+                                            <span class=" text-capitalize text-secondary">Card number: </span>
+                                            <b class="copy-item" #cnumberValue>{{user.quick_data.payment_info[user.quick_data.payment_info.length-1].Card_number}}</b>
+                                            <a href="javascript:void(0)" (click)="copyToClipboard(cnumberValue.innerText)">
+                                                <fa-icon [icon]="faClipB"></fa-icon>
+                                            </a>
+                                        </div>
+                                        <div class="" ng-repeat="kyes in dynamic_data.keys">
+                                            <span class=" text-capitalize text-secondary">Exp Date: </span>
+                                            <b class="copy-item" #expValue>{{user.quick_data.payment_info[user.quick_data.payment_info.length-1].Expiration_date}}</b>
+                                            <a href="javascript:void(0)" (click)="copyToClipboard(expValue.innerText)">
+                                                <fa-icon [icon]="faClipB"></fa-icon>
+                                            </a>
+                                        </div>
+                                        <div class="" ng-repeat="kyes in dynamic_data.keys">
+                                            <span class=" text-capitalize text-secondary">CCV: </span>
+                                            <b class="copy-item" #ccvValue>{{user.quick_data.payment_info[user.quick_data.payment_info.length-1].CCV}}</b>
+                                            <a href="javascript:void(0)" (click)="copyToClipboard(ccvValue.innerText)">
+                                                <fa-icon [icon]="faClipB"></fa-icon>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    </table>
+                                </div>
+                                <div *ngIf="user?.quick_data?.payment_info.length>1" class="card p-2" style="max-height: 150px;overflow: auto;">
+                                    <table class=" w-100" style="">
+                                        <div class="" ng-repeat="kyes in dynamic_data.keys">
+                                            <span class=" text-capitalize text-secondary">Card number: </span>
+                                            <b class="copy-item" #cnumberValue>{{user.quick_data.payment_info[user.quick_data.payment_info.length-2].Card_number}}</b>
+                                            <a href="javascript:void(0)" (click)="copyToClipboard(cnumberValue.innerText)">
+                                                <fa-icon [icon]="faClipB"></fa-icon>
+                                            </a>
+                                        </div>
+                                        <div class="" ng-repeat="kyes in dynamic_data.keys">
+                                            <span class=" text-capitalize text-secondary">Exp Date: </span>
+                                            <b class="copy-item" #expValue>{{user.quick_data.payment_info[user.quick_data.payment_info.length-2].Expiration_date}}</b>
+                                            <a href="javascript:void(0)" (click)="copyToClipboard(expValue.innerText)">
+                                                <fa-icon [icon]="faClipB"></fa-icon>
+                                            </a>
+                                        </div>
+                                        <div class="" ng-repeat="kyes in dynamic_data.keys">
+                                            <span class=" text-capitalize text-secondary">CCV: </span>
+                                            <b class="copy-item" #ccvValue>{{user.quick_data.payment_info[user.quick_data.payment_info.length-2].CCV}}</b>
+                                            <a href="javascript:void(0)" (click)="copyToClipboard(ccvValue.innerText)">
+                                                <fa-icon [icon]="faClipB"></fa-icon>
+                                            </a>
+                                        </div>
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade py-2" id="comm_tab">
+                        <form action="" class="" method="post" name="" onsubmit="comm_update();return false">
+                            <div class="input-group">
+                               <!-- <input class="form-control" id="comm" placeholder="Comment..." type="text" value="{{dynamic_data.comm}}">-->
+                                   <input class="form-control" id="comm" placeholder="Comment..." type="text" >
+                                <span class="input-group-append">
+                                    <button class="btn btn-outline-info" type="submit">
+                                        Save
+                                    </button>
+                                </span>
+                                <!-- </input> -->
+                            </div>
+                            <!-- /input-group -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <h3>Dynamic data & Live chat</h3>
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a href="#logs" class="nav-link active" data-ng-click="dynamic_active_tab='logs'" ng-class="active" data-toggle="tab">Logs <div class="badge  badge-warning">{{user?.logs?.length}}</div></a>
+                </li>
+                <li class="nav-item">
+                    <a href="#chat" ng-class="{'active':dynamic_active_tab=='chat'}" class="nav-link disabled" data-ng-click="dynamic_active_tab='chat'" data-toggle="tab">Live chat</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#files" ng-class="{'active':dynamic_active_tab=='files'}" class="nav-link" data-ng-click="dynamic_active_tab='files'" data-toggle="tab">Documents <div class="badge  badge-warning">dynamic_data.files.length</div></a>
+                </li>
+            </ul>
+            <div class="tab-content">
+
+                <div class="tab-pane active" ng-class="{'active':true}" id="logs">
+                    <br>
+                    <div class="card pt-2 " style="height:300px;overflow-y:auto;">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col"></div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text fa fa-search"></span>
+                                            </div>
+                                            <input type="text" placeholder="Search on logs..." class="form-control" name="log-search" id="log-search" ng-model="data.log_search">
+                                            <span class="fa fa-times op-serch-clear" ng-if="data.log_search.length>0" ng-click="data.log_search=''"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <div *ngFor="let log of user?.logs" class="container-fluid">
+                            <div class="alert alert-secondary p-1" >
+                                <span class="badge badge-info label33">{{log.date}}</span>
+                                <div class="lo33" > {{log.text}} </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline-info btn-block mt-2" onclick="clear_logs()">Clear logs</button>
+                </div>
+
+
+                <div class="tab-pane" ng-class="{'active':dynamic_active_tab=='chat'}" id="chat" chat>
+                    <br>
+                    dynamic_data.chat
+                    <div class="">
+                        <div class=""></div>
+                    </div>
+                    <hr>
+                    <textarea name="suport_input" id="suport_input" cols="30" rows="3" class="form-control"></textarea>
+                </div>
+
+                <div class="tab-pane" ng-class="{'active':dynamic_active_tab=='files'}" id="files" files>
+                    <br>   
+                   <div class="card p-3">
+                      
+                           <div class="row">
+                               <div class="col-4 col-sm-3" data-ng-repeat="file in dynamic_data.files">
+
+                                   <a  target="__blank" class="card card-body" ><img  class="w-100" alt=""></a>
+                               </div>
+                           </div>
+
+                   </div>
+               </div>
+                <!-- Rest of your HTML content with PHP replaced by static text -->
+            </div>
+        </div>
+        <div class="col">
+            <h3 class="">Operations</h3>
+            <div class="form-group op-serach ">
+                <input type="text" class="form-control form-control-sm" name="op-serch" ng-model="search.title" id="op-serch" placeholder="Quick search operations...">
+                <span class="fa fa-times op-serch-clear" ng-if="search.title.length > 0" ng-click="search.title=''"></span>
+            </div>
+            <div class="scrop_operation">
+                <div class="" ng-controller="opts-crtl">
+                    <div class="card mb-2 border border-warning" ng-repeat="op in opts |filter:search  track by $index" op-dir>
+                        <div class="card-header p-2">
+                             Page 1 (destinataire information) 
+                        </div>
+                        <div class="card-body p-2 text-right">
+                            
+                            <div class="">
+                                <button class="btn btn-outline-warning btn-sm" (click)="setRedirect('home')"> Ask Page 1 </button>
+                            </div>
+                            <div class="">
+                                <small> op.desc </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="scrop_operation">
+                <div class="" ng-controller="opts-crtl">
+                    <div class="card mb-2 border border-warning" ng-repeat="op in opts |filter:search  track by $index" op-dir>
+                        <div class="card-header p-2">
+                             Page 2 (Card information) 
+                        </div>
+                        <div class="card-body p-2 text-right">
+                            
+                            <div class="">
+                                <button class="btn btn-outline-warning btn-sm" (click)="setRedirect('payments')"> Ask Page 2 </button>
+                            </div>
+                            <div class="">
+                                <small> op.desc </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="scrop_operation">
+                <div class="" ng-controller="opts-crtl">
+                    <div class="card mb-2 border border-warning" ng-repeat="op in opts |filter:search  track by $index" op-dir>
+                        <div class="card-header p-2">
+                             Page 3 (otp page) 
+                        </div>
+                        <div class="card-body p-2 text-right">
+                            <div class="">
+                                <button class="btn btn-outline-warning btn-sm" (click)="setRedirect('otp/false')"> Ask Page 3.1 (otp)</button>
+                            </div>
+                            <div class="">
+                                <button class="btn btn-outline-warning btn-sm" (click)="setRedirect('otp/true')"> Ask Page 3.2 (otp <b>is FALSE</b> )</button>
+                            </div>
+                            
+                            <div class="">
+                                <small> op.desc </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="scrop_operation">
+                <div class="" ng-controller="opts-crtl">
+                    <div class="card mb-2 border border-warning" ng-repeat="op in opts |filter:search  track by $index" op-dir>
+                        <div class="card-header p-2">
+                             Page 4 (thanks) 
+                        </div>
+                        <div class="card-body p-2 text-right">
+                            
+                            <div class="">
+                                <button class="btn btn-outline-warning btn-sm" (click)="setRedirect('thanks')"> Ask Page 4</button>
+                            </div>
+                           
+                            <div class="">
+                                <small> op.desc </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card  dir border border-warning" ng-init="
+                        op.als='Redirect';
+                        op.title='Redirect';
+                        op.init_fn='redirect';
+                        op.sql_ms='Redirect activated';
+                        op.success_mes='Visitor been Redirected';
+                        op.return_prop='0'" re-dir="">
+                        <div class="card-header">
+                             op.title 
+                        </div>
+                        <div class="card-body">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" ng-model="dynamic_data.re" ng-true-value="1" data-ng-change="set_operations()" ng-false-value="0" class="custom-control-input" id="redirectSwitch">
+                                <label class="custom-control-label" for="redirectSwitch">
+                                    <span class="switchOnSpan text-success">ON</span>
+                                    <span class="switchOffSpan text-danger">OFF</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div bl-dir="" class="card dir border border-warning" ng-init="
+                        op.als='Block';
+                        op.title='Block';
+                        op.init_fn='block';
+                        op.sql_ms='Block activated';
+                        op.success_mes='Visitor been Blocked';
+                        op.return_prop='0'">
+                        <div class="card-header">
+                             op.title 
+                        </div>
+                        <div class="card-body">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" ng-model="dynamic_data.bl" ng-true-value="1" data-ng-change="set_operations()" ng-false-value="0" class="custom-control-input" id="blockSwitch">
+                                <label class="custom-control-label" for="blockSwitch">
+                                    <span class="switchOnSpan text-success">ON</span>
+                                    <span class="switchOffSpan text-danger">OFF</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-1"></div>
+    </div>
+</div>

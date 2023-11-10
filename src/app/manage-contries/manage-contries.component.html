@@ -1,0 +1,53 @@
+<app-navbar></app-navbar>
+
+<div class="mt-3=" ng-app="users-app" ng-controller="users-crtl" ng-cloak>
+    <div class="container-fluid">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Countries</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="container mb-5" style="margin-right: 30px;">
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="list-group">
+                    <div class="list-group-item list-group-item-action "  *ngFor="let country of countries; let index = index"  >
+                        {{country.Country_code}}
+                        <button (click)="showConfirmation(country._id)" class="btn btn-danger btn-sm float-right" >
+                            <fa-icon [icon]="faTrashAlt"></fa-icon>                        </button>
+                    </div>
+                    <div class="list-group-item" (click)="openModal()">
+                        <i class="fa fa-plus-circle"></i> Add new
+                    </div>
+                    
+                </div>
+            </div>
+           
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" [ngClass]="{ 'show': showModal, 'd-block': showModal }">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit Modal</h5>
+              <button type="button" class="close" (click)="closeModal()">
+                <span>&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <label for="Country_code">Country code </label>
+                <input class="form-control" type="text" id="Country_code" [(ngModel)]="Country_code"  autocomplete="off">
+          
+
+              </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" (click)="saveChanges()" [disabled]="!Country_code">Add admin</button>
+              <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+

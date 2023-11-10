@@ -1,0 +1,34 @@
+.clickable-header {
+    cursor: pointer;
+}
+.filter-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px; /* To add some space between the filter and the table */
+}
+
+.filter-container select,
+.filter-container input {
+    padding: 5px;
+    /* Add any additional styling you need for the select and input */
+}
+.aligned-cell {
+    white-space: pre-line; /* or pre-wrap */
+}
+
+.waiting-status {
+    animation: flash 1s infinite;
+    background-color: red;
+}
+
+@keyframes flash {
+    50% {
+        opacity: 0.4;
+    }
+}
+
+.default-status {
+    background-color: rgba(19, 19, 19, 1);
+}
+

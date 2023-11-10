@@ -1,0 +1,77 @@
+<app-navbar></app-navbar>
+
+<div class="mt-3" ng-app="users-app" ng-controller="users-crtl" ng-cloak>
+    <div class="container-fluid">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Users</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="container mb-5">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="list-group">
+                    <div class="list-group-item list-group-item-action "  *ngFor="let admin of admins; let index = index" (click)="selectAdmin(index)" [ngClass]="{ 'active': admin._id===selectedAdmin._id }">
+                        {{admin.username}}
+                        <button (click)="showConfirmation(admin._id)" class="btn btn-danger btn-sm float-right" >
+                            <fa-icon [icon]="faTrashAlt"></fa-icon>                        </button>
+                    </div>
+                    <div class="list-group-item" (click)="openModal()">
+                        <i class="fa fa-plus-circle"></i> Add new
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col" *ngIf="admins?.length>0">
+                <div class="accordion" id="userSettAccordion">
+                    <!-- Other card sections -->
+                    <!-- Placeholder content -->
+                    <div class="card">
+                        <div class="card-header">
+                            <button class="btn btn-link p-0" type="button" data-toggle="collapse" data-target="#pass">
+                                <h6 class="m-0">Change password for {{selectedAdmin.username}}</h6>
+                            </button>
+                        </div>
+                        <div id="pass" class="collapse show" data-parent="#userSettAccordion">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <input type="text" placeholder="Enter new Password..." [(ngModel)]="newPassword" class="form-control" id="new_pass" />
+                                </div>
+                                <div class="form-group text-right">
+                                    <button class="btn btn-outline-primary" (click)="updatePass(selectedAdmin._id)" [disabled]="!newPassword">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Placeholder content for other sections -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" [ngClass]="{ 'show': showModal, 'd-block': showModal }">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit Modal</h5>
+              <button type="button" class="close" (click)="closeModal()">
+                <span>&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <label for="username">Username</label>
+                <input class="form-control" type="text" id="username" [(ngModel)]="username"  autocomplete="off">
+                <label for="password">Password</label>
+                <input class="form-control" type="text" id="password" [(ngModel)]="password" autocomplete="off" >
+
+              </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" (click)="saveChanges()" [disabled]="!username || !password">Add admin</button>
+              <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
