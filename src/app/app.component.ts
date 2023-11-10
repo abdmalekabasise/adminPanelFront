@@ -9,10 +9,6 @@ export class AppComponent {
   faCoffee = faSignOutAlt;
   title = 'adminP';
  
-  ngOnInit(): void {
-   sessionStorage.setItem('id','44444444');
-   const a =  sessionStorage.getItem('id')
-    console.log(a)
-  }
+
  
 }
