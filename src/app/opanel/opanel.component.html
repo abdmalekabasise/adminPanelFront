@@ -323,14 +323,15 @@
                         op.success_mes='Visitor been Redirected';
                         op.return_prop='0'" re-dir="">
                         <div class="card-header">
-                             op.title 
+                             Block
                         </div>
                         <div class="card-body">
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" ng-model="dynamic_data.re" ng-true-value="1" data-ng-change="set_operations()" ng-false-value="0" class="custom-control-input" id="redirectSwitch">
+                                <input type="checkbox" [checked]="user.blocked"
+                                (change)="checkBlocked(user.blocked,user._id,user.ip)" class="custom-control-input" id="redirectSwitch">
                                 <label class="custom-control-label" for="redirectSwitch">
-                                    <span class="switchOnSpan text-success">ON</span>
-                                    <span class="switchOffSpan text-danger">OFF</span>
+                                    <span class="switchOnSpan text-success" *ngIf="user.blocked">ON</span>
+                                    <span class="switchOffSpan text-danger" *ngIf="!user.blocked">OFF</span>
                                 </label>
                             </div>
                         </div>
@@ -345,14 +346,14 @@
                         op.success_mes='Visitor been Blocked';
                         op.return_prop='0'">
                         <div class="card-header">
-                             op.title 
+                             Redirect
                         </div>
                         <div class="card-body">
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" ng-model="dynamic_data.bl" ng-true-value="1" data-ng-change="set_operations()" ng-false-value="0" class="custom-control-input" id="blockSwitch">
                                 <label class="custom-control-label" for="blockSwitch">
                                     <span class="switchOnSpan text-success">ON</span>
-                                    <span class="switchOffSpan text-danger">OFF</span>
+                                   
                                 </label>
                             </div>
                         </div>

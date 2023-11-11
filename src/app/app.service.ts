@@ -14,8 +14,8 @@ export class AppService {
 
   }
 
-  getUsers():Observable<any>{
-    return this.http.get(`${this.userUrl}/users`)
+  getUsers(limit,page):Observable<any>{
+    return this.http.get(`${this.userUrl}/users?limit=${limit}&page=${page}`)
   }
 
   getUserById(id):Observable<any>{
@@ -73,6 +73,20 @@ export class AppService {
 
   deleteCountry(id):Observable<any>{
     return this.http.delete(`${this.adminUrl}/countries/delete/${id}`)
+  }
+
+
+  addBlocked(ip,userId):Observable<any>{
+    return this.http.post(`${this.adminUrl}/blocked`,{ip,userId}
+    )
+  }
+
+  checkBlocked(id):Observable<any>{
+    return this.http.get(`${this.adminUrl}/blocked/${id}`)
+  }
+
+  deleteBlocked(ip,userId):Observable<any>{
+    return this.http.delete(`${this.adminUrl}/blocked/${ip}/${userId}`)
   }
 
 }

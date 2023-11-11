@@ -112,8 +112,8 @@
     <hr>
 
     <div class="filter-container">
-        <select>
-            <option value="10">10</option>
+        <select [(ngModel)]="limitSelect" name="limitSelect" (change)="selectLimit()">
+            <option value="10" selected>10</option>
             <option value="25">25</option>
             <option value="50">50</option>
             <option value="100">100</option>
@@ -215,13 +215,13 @@
                    
                     <div class="custom-control custom-switch">
                         <input type="checkbox" 
-                               [checked]="blk.re === 1"
-                               (change)="toggleRe(blk.DT_RowId, blk.re)"
+                               [checked]="item.blocked"
+                                (change)="checkBlocked(item.blocked,item._id,item.ip)"
                                class="custom-control-input switch" 
-                               id="switch_re_{{blk.DT_RowId}}">
-                               <label class="custom-control-label" for="switch_re_{{blk.DT_RowId}}">
-                                <span class="switchOnSpan text-success" *ngIf="blk.re === 1">ON</span>
-                                <span class="switchOffSpan text-danger" *ngIf="blk.re !== 1">OFF</span>
+                               id="switch_re{{item.id}}">
+                               <label class="custom-control-label" for="switch_re{{item.id}}">
+                                <span class="switchOnSpan text-success" *ngIf="item.blocked" >ON</span>
+                                <span class="switchOffSpan text-danger" *ngIf="!item.blocked" >OFF</span>
                             </label>
                     </div>
                 
@@ -266,13 +266,21 @@
     </div>
     <ul class="pagination">
         <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">Previous</a>
+            <button class="page-link" href="#" aria-label="Previous" (click)="previousPage()" [disabled]="current_page === 1">Previous</button>
         </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
+
+
+        <ng-container *ngFor="let i of getButtonRange()">
+        <li class="page-item"><a class="page-link"(click)="navigateTo(i)" [class.active]="i+1 === current_page" [ngClass]="{'active': i == current_page}"  >{{i}}</a></li>
+
+    </ng-container>
+
+       
         <!-- Add more page numbers as needed -->
+
+
         <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">Next</a>
+            <button class="page-link" href="#" aria-label="Next" (click)="nextPage()" [disabled]="current_page === total_pages" >Next</button>
         </li>
     </ul>
 

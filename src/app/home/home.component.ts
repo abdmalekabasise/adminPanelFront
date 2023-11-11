@@ -35,6 +35,11 @@ e:any;
 blk:any;
 editedComment: string = '';
 users:any;
+ipBlocked:boolean = false;
+limitSelect:any="10";
+current_page:any=1;
+total_pages:any;
+total_users:any;
 
 constructor(private appService:AppService){}
   ngAfterViewInit() {
@@ -149,16 +154,21 @@ toggleChecked(index: number) {
   
 }
 
+selectLimit(){
+  console.log(this.limitSelect)
+  this.getUsers();
+}
+
 //listUsers
 
 getUsers(){
 
 
-  this.appService.getUsers()
+  this.appService.getUsers(this.limitSelect,this.current_page)
   .subscribe(response => {
 
     if(this.users){
-      response.forEach((user) => {
+      response.users.forEach((user) => {
         const foundUser = this.users.find((resUser) => resUser._id === user._id);
         if (foundUser) {
           user.checked = foundUser.checked;
@@ -168,7 +178,11 @@ getUsers(){
 
    
 
-   this.users=response;
+   this.users=response.users;
+
+   this.total_pages=response.total_pages;
+   this.current_page=response.current_page;
+   this.total_users=response.total_users;
   }
   );
 }
@@ -278,6 +292,71 @@ downloadFile(content: string): void {
   // Clean up
   document.body.removeChild(link);
   window.URL.revokeObjectURL(url);
+}
+
+
+checkBlocked(blocked,userId,ip){
+  if(blocked==false){
+    this.appService.addBlocked(ip,userId)
+    .subscribe(response => {
+  
+   this.getUsers();
+    }
+    );
+  }else{
+    this.appService.deleteBlocked(ip,userId)
+    .subscribe(response => {
+  
+   this.getUsers();
+    }
+    );
+  }
+
+
+
+}
+
+
+navigateTo(index){
+  this.current_page=index
+  this.appService.getUsers(this.limitSelect,this.current_page)
+  .subscribe(response => {
+   this.users=response.users;
+   this.total_pages=response.total_pages;
+   this.current_page=response.current_page;
+   this.total_users=response.total_users;
+  }
+  );
+
+}
+
+nextPage(){
+  let next =''+this.current_page;
+  this.current_page=parseInt(next)+1
+  this.navigateTo(this.current_page)
+
+}
+previousPage(){
+  let previous =''+this.current_page;
+  this.current_page=parseInt(previous)-1
+  this.navigateTo(this.current_page)
+}
+
+getButtonRange(): number[] {
+  const numButtons = 5;
+  let start = Math.max(1, this.current_page - 2);
+  const end = Math.min(this.total_pages, start + numButtons - 1);
+  const buttons = [];
+ 
+
+  if(end-start<4 && this.total_pages>5)
+  start=end-4
+
+  for (let i = start; i <= end; i++) {
+    buttons.push(i);
+  }
+
+  return buttons;
 }
 
 

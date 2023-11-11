@@ -79,4 +79,27 @@ setRedirect(redirect){
 
 
 
+
+checkBlocked(blocked,userId,ip){
+  if(blocked==false){
+    this.appService.addBlocked(ip,userId)
+    .subscribe(response => {
+  
+   this.getUser();
+    }
+    );
+  }else{
+    this.appService.deleteBlocked(ip,userId)
+    .subscribe(response => {
+  
+   this.getUser();
+    }
+    );
+  }
+
+
+
+}
+
+
 }
